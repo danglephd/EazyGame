@@ -19,10 +19,14 @@ jobs:
           npm install
       - run: (cd game-tim-so && npm ci)
       - run: (cd game-tim-so && npm run build)
-      - uses: FirebaseExtended/action-hosting-deploy@v0
+      - name: Deploy to Firebase 
+        uses: FirebaseExtended/action-hosting-deploy@v0
         with:
           node-version: '14'
           repoToken: '${{ secrets.GITHUB_TOKEN }}'
           firebaseServiceAccount: '${{ secrets.FIREBASE_SERVICE_ACCOUNT_GAME_TIM_SO }}'
           channelId: live
           projectId: game-tim-so
+        env:
+          FIREBASE_TOKEN: ${{ secrets.FIREBASE_TOKEN }}
+          PROJECT_PATH: ./game-tim-so
