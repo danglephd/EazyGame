@@ -14,6 +14,8 @@ jobs:
       - name: Update package-lock.json
         run: |
           cd game-tim-so
+          echo "${{ secrets.GITHUB_TOKEN }}" 
+          echo "${{ secrets.FIREBASE_SERVICE_ACCOUNT_GAME_TIM_SO }}" 
           npm install
       - run: (cd game-tim-so && npm ci)
       - run: (cd game-tim-so && npm run build)
