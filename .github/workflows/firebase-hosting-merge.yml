@@ -29,4 +29,4 @@ jobs:
           projectId: game-tim-so
         env:
           FIREBASE_TOKEN: ${{ secrets.FIREBASE_TOKEN }}
-          PROJECT_PATH: ./game-tim-so
+          PROJECT_PATH: ./game-tim-so/dist
