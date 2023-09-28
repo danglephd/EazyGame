@@ -43,7 +43,7 @@
 import { cPen } from '../plugin/func.js';
 
 let zoomBoard = 40;
-let numbLength = 200;
+let numbLength = 30;
 let cR = 40;
 let font_size = 40;
 let delta_top = 40;
