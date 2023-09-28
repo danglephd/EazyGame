@@ -19,6 +19,7 @@ jobs:
           npm install
       - run: (cd game-tim-so && npm ci)
       - run: (cd game-tim-so && npm run build)
+      - run: ls ./game-tim-so
       - name: Deploy to Firebase 
         uses: FirebaseExtended/action-hosting-deploy@v0
         with:
