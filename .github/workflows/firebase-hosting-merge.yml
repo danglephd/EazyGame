@@ -26,6 +26,3 @@ jobs:
           firebaseServiceAccount: '${{ secrets.FIREBASE_SERVICE_ACCOUNT_GAME_TIM_SO }}'
           channelId: live
           projectId: game-tim-so
-        env:
-          FIREBASE_TOKEN: ${{ secrets.FIREBASE_TOKEN }}
-          FIREBASE_PROJECT: vue-tim-so
