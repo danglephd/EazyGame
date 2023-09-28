@@ -2,36 +2,36 @@
     <div>
         <div class="container">
             <div class="heading">
-                <h1 class="title" style="cursor:pointer" v-on:click="changeNav">&#9776; Number</h1>
+                <h1 class="title" style="cursor:pointer" @click="changeNav">&#9776; Number</h1>
                 <div class="scores-container">
                     <div class="score-container" id="vn_number" style="min-width: 40px;"> - </div>
                     <div class="best-container" id="vn_timer">00:00:00</div>
                 </div>
             </div>
             <div class="above-game">
-                <a class="restart-button" v-on:click="startCounting">New Game</a>
-                <!-- <a class="restart-button" v-on:click="stopCounting">Stop</a> -->
+                <a class="restart-button" @click="startCounting">New Game</a>
+                <!-- <a class="restart-button" @click="stopCounting">Stop</a> -->
             </div>
         </div>
         <div id="mySidenav" class="sidenav">
-            <a href="javascript:void(0)" class="closebtn" v-on:click="closeNav">&times;</a>
+            <a href="javascript:void(0)" class="closebtn" @click="closeNav">&times;</a>
             <p>Number to Find</p>
-            <input type="number" name="numberLength" id="vn_numberLength" value=25>
+            <input type="number" name="numberLength" id="vn_numberLength" v-model="numbLength">
             <p>Zoom</p>
-            <input type="number" name="zoomBoard" id="zoomBoard" value=40>
+            <input type="number" name="zoomBoard" id="zoomBoard" v-model="zoomBoard">
             <p>R</p>
-            <input type="number" name="cR" id="cR" value=50>
+            <input type="number" name="cR" id="cR" v-model="cR">
             <p>Font-size</p>
-            <input type="number" name="font-size" id="font-size" value=30>
+            <input type="number" name="font-size" id="font-size" v-model="font_size">
             <p>Delta top</p>
-            <input type="number" name="delta_top" id="delta_top" value=40>
-            <a class="restart-button" style="margin: 10%;" v-on:click="startCounting">New Game</a>
+            <input type="number" name="delta_top" id="delta_top" v-model="delta_top">
+            <a class="restart-button" style="margin: 10%;" @click="startCounting">New Game</a>
         </div>
         <div class="game-message game-over" style="display: none;" id="game-over">
             <p id="final_timer">00:00:11</p>
             <p>Finish!</p>
             <div class="lower"><a class="keep-playing-button">Keep going</a>
-                <a class="retry-button" v-on:click="startCounting">Play again</a>
+                <a class="retry-button" @click="startCounting">Play again</a>
             </div>
         </div>
         <div id="gameZone"></div>
@@ -42,11 +42,11 @@
 <script>
 import { cPen } from '../plugin/func.js';
 
-let zoomBoard = 40;
-let numbLength = 30;
-let cR = 40;
-let font_size = 40;
-let delta_top = 40;
+// let zoomBoard = 40;
+// let numbLength = 55;
+// let cR = 40;
+// let font_size = 40;
+// let delta_top = 40;
 let isShowSidenav = false;
 const canvas = document.getElementById("myCanvas");
 let numberArray = [];
@@ -57,7 +57,12 @@ export default {
     name: 'GameTimSo',
     data() {
         return {
-            msg: 'Welcome to GameTimSo'
+            msg: 'Welcome to GameTimSo',
+            numbLength: 11,
+            font_size: 22,
+            zoomBoard: 33,
+            delta_top: 55,
+            cR: 44
         }
     },
     mounted: function (params) {
@@ -91,37 +96,37 @@ export default {
             if (localStorage.getItem("zoomBoard") === null) {
                 console.log(">>>no zoomBoard");
             } else {
-                zoomBoard = localStorage.getItem("zoomBoard");
+                this.zoomBoard = localStorage.getItem("zoomBoard");
             }
 
             if (localStorage.getItem("numbLength") === null) {
                 console.log(">>>no vn_numberLength");
             } else {
-                numbLength = localStorage.getItem("numbLength");
+                this.numbLength = localStorage.getItem("numbLength");
             }
 
             if (localStorage.getItem("cR") === null) {
                 console.log(">>>no cR");
             } else {
-                cR = localStorage.getItem("cR");
+                this.cR = localStorage.getItem("cR");
             }
 
             if (localStorage.getItem("font-size") === null) {
                 console.log(">>>font-size");
             } else {
-                font_size = localStorage.getItem("font-size");
+                this.font_size = localStorage.getItem("font-size");
             }
 
             if (localStorage.getItem("delta_top") === null) {
                 console.log(">>>delta_top");
             } else {
-                delta_top = localStorage.getItem("delta_top");
+                this.delta_top = localStorage.getItem("delta_top");
             }
-            document.getElementById("cR").value = cR;
-            document.getElementById("vn_numberLength").value = numbLength;
-            document.getElementById("zoomBoard").value = zoomBoard;
-            document.getElementById("font-size").value = font_size;
-            document.getElementById("delta_top").value = delta_top;
+            document.getElementById("cR").value = this.cR;
+            document.getElementById("vn_numberLength").value = this.numbLength;
+            document.getElementById("zoomBoard").value = this.zoomBoard;
+            document.getElementById("font-size").value = this.font_size;
+            document.getElementById("delta_top").value = this.delta_top;
         },
 
         gameTimer: function () {
@@ -155,11 +160,12 @@ export default {
             this.closeNav();
             this.closeFinish();
 
-            localStorage.setItem("zoomBoard", parseInt(document.getElementById("zoomBoard").value));
-            localStorage.setItem("numbLength", parseInt(document.getElementById("vn_numberLength").value));
-            localStorage.setItem("cR", parseInt(document.getElementById("cR").value));
-            localStorage.setItem("font-size", document.getElementById("font-size").value);
-            localStorage.setItem("delta_top", parseInt(document.getElementById("delta_top").value));
+
+            localStorage.setItem("numbLength", parseInt(this.numbLength));
+            localStorage.setItem("zoomBoard", parseInt(this.zoomBoard));
+            localStorage.setItem("cR", parseInt(this.cR));
+            localStorage.setItem("delta_top", parseInt(this.delta_top));
+            localStorage.setItem("font-size", this.font_size);
 
             if (x) {
                 clearInterval(x);
@@ -180,10 +186,10 @@ export default {
             canvas.height = (window.innerHeight || document.documentElement.clientHeight || document.body.clientHeight) - 200; //bottom
             const ctx = canvas.getContext("2d");
             let lookNumber = 1;
-            cR = parseInt(document.getElementById("cR").value);
-            zoomBoard = parseInt(document.getElementById("zoomBoard").value);
-            numbLength = parseInt(document.getElementById("vn_numberLength").value);
-            delta_top = parseInt(document.getElementById("delta_top").value);
+            let cR = this.cR;
+            let zoomBoard = this.zoomBoard;
+            let numbLength = this.numbLength;
+            let delta_top = this.delta_top;
 
             ctx.beginPath();
 
@@ -191,15 +197,14 @@ export default {
             let centery = canvas.height / 2;
             let j = 0, i = 0, k = 0;
 
-            let finalNumber = cPen.calculateFinalNumber(numbLength, centerx, centery);
-            numbLength = finalNumber;
+            let finalNumber = cPen.calculateFinalNumber(numbLength, canvas.width, canvas.height, centerx, centery, zoomBoard, cR);
+            this.numbLength = finalNumber;
+            numbLength = parseInt(this.numbLength);
             numberArray = cPen.initNumberArray(numbLength);
             document.getElementById("gameZone").innerHTML = '';
             document.getElementById("vn_number").innerHTML = '1';
-            let fontSize = document.getElementById("font-size").value;
             for (let j = 0, i = j + 1; j < numbLength || k < numbLength; j++, i = j + 1) {
                 let c = cPen.randCircle(i, canvas.width, canvas.height, centerx, centery, numberArray[k], zoomBoard, cR);
-
                 if (c != null) {
                     let node = document.createElement("div");
                     let textnode = document.createTextNode(c.value);

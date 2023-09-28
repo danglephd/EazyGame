@@ -211,10 +211,10 @@ export const cPen = {
         }
         return numberArray;
     },
-    calculateFinalNumber: function (numbLength, centerx, centery) {
+    calculateFinalNumber: function (numbLength, width, height, centerx, centery, zoomBoard, cR) {
         let numberMax = 0;
         for (let j = 0, i = j + 1; j < numbLength || numberMax < numbLength; j++, i = j + 1) {
-            let c = this.randCircle(i, centerx, centery, 0, zoomBoard, cR);
+            let c = this.randCircle(i, width, height, centerx, centery, 0, zoomBoard, cR);
 
             if (c != null) {
                 numberMax++;
