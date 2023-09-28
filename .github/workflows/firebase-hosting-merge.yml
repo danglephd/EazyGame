@@ -11,8 +11,12 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
+      - name: Update package-lock.json
+        run: |
+          npm install
+          rm package-lock.json
+          npm install
       - run: |
-          echo "${{ secrets.ENV_FILE }}" > .env
           npm ci && npm run build
       - uses: FirebaseExtended/action-hosting-deploy@v0
         with:
