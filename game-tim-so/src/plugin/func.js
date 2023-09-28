@@ -225,6 +225,4 @@ export const cPen = {
         }
         return numbLength;
     }
-
-
 }
