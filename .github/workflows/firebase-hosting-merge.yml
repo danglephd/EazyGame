@@ -14,14 +14,9 @@ jobs:
       - name: Update package-lock.json
         run: |
           cd game-tim-so
-          echo "${{ secrets.ENV_FILE }}" > .env
-      - name: Update package-lock.json
-        run: |
           npm install
-          rm package-lock.json
-          npm install
-      - run: |
-          npm ci && npm run build
+      - run: (cd my-app && npm ci)
+      - run: (cd my-app && npm run build)
       - uses: FirebaseExtended/action-hosting-deploy@v0
         with:
           node-version: '14'
