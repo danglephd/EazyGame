@@ -122,11 +122,6 @@ export default {
             } else {
                 this.delta_top = localStorage.getItem("delta_top");
             }
-            document.getElementById("cR").value = this.cR;
-            document.getElementById("vn_numberLength").value = this.numbLength;
-            document.getElementById("zoomBoard").value = this.zoomBoard;
-            document.getElementById("font-size").value = this.font_size;
-            document.getElementById("delta_top").value = this.delta_top;
         },
 
         gameTimer: function () {
@@ -159,8 +154,6 @@ export default {
             this.gameInitiation();
             this.closeNav();
             this.closeFinish();
-
-
             localStorage.setItem("numbLength", parseInt(this.numbLength));
             localStorage.setItem("zoomBoard", parseInt(this.zoomBoard));
             localStorage.setItem("cR", parseInt(this.cR));
@@ -186,7 +179,7 @@ export default {
             canvas.height = (window.innerHeight || document.documentElement.clientHeight || document.body.clientHeight) - 200; //bottom
             const ctx = canvas.getContext("2d");
             let lookNumber = 1;
-            let cR = this.cR;
+            let cR = parseInt(this.cR);
             let zoomBoard = this.zoomBoard;
             let numbLength = this.numbLength;
             let delta_top = this.delta_top;
@@ -217,7 +210,7 @@ export default {
                     node.style.width = c.R + 'px';
                     node.style.height = c.R + 'px';
                     node.style.lineHeight = c.R + 'px';
-                    node.style.fontSize = fontSize + "px";
+                    node.style.fontSize = this.font_size + "px";
                     node.style.color = c.color;
 
                     node.addEventListener('click', function (event) {
