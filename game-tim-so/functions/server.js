@@ -9,9 +9,10 @@ wss.on('connection', function conenction(ws) {
     ws.on('message', function incoming(data) {
         wss.clients.forEach(function each(client) {
             if (client !== ws && client.readyState == WebSocket.OPEN) {
-                client.send(data);
+                client.send(data.toString());
             }
         })
+        // wss.broadcast(ws, data.toString());
     })
 })
 
