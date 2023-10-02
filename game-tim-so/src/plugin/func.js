@@ -219,7 +219,7 @@ export const cPen = {
             if (c != null) {
                 numberMax++;
             }
-            if (j > numbLength * 1.5) {
+            if (j > numbLength * 10) {
                 return numberMax;
             }
         }
