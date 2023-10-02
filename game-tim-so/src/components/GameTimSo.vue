@@ -57,9 +57,11 @@ const canvas = document.getElementById("myCanvas");
 let numberArray = [];
 let x = null;
 let start = new Date().getTime();
+let ws;
 
 export default {
     name: 'GameTimSo',
+
     data() {
         return {
             msg: 'Welcome to GameTimSo',
@@ -72,6 +74,7 @@ export default {
     },
     mounted: function (params) {
         this.initBoard();
+        this.init();
     },
     methods: {
         openNav: function () {
@@ -179,6 +182,16 @@ export default {
             clearInterval(x);
         },
 
+        sendMessage: function (message) {
+            if (!ws) {
+                showMessage("No WebSocket connection :(");
+                return;
+            }
+
+            ws.send(message);
+            this.showMessage(message);
+        },
+
         gameInitiation: function () {
             let canvas = document.getElementById("myCanvas");
             canvas.width = (window.innerWidth || document.documentElement.clientWidth || document.body.clientWidth) - 20;
@@ -218,20 +231,25 @@ export default {
                     node.style.lineHeight = c.R + 'px';
                     node.style.fontSize = this.font_size + "px";
                     node.style.color = c.color;
+                    node.id = `number_${c.value}`;
 
-                    node.addEventListener('click', function (event) {
+                    node.addEventListener('click', () => {
                         // do something
-                        var node = document.getElementById('vn_number');
+                        var vn_numberNode = document.getElementById('vn_number');
 
-                        if (this.innerHTML == `${lookNumber}`) {
+                        if (node.innerHTML == `${lookNumber}`) {
                             // this.classList.add('selected');
-                            this.classList.add('hidden');
+                            let message = {
+                                number: lookNumber
+                            }
+                            node.classList.add('hidden');
                             lookNumber++;
-                            node.innerHTML = lookNumber;
+                            vn_numberNode.innerHTML = lookNumber;
+                            this.sendMessage(JSON.stringify(message));
                             // If the count down is finished, write some text
                             if (lookNumber > numbLength) {
                                 clearInterval(x);
-                                node.innerHTML = ' - ';
+                                vn_numberNode.innerHTML = ' - ';
                                 document.getElementById("fireworks").style.display = "flex";
                                 document.getElementById("game-over").style.display = "flex";
                                 document.getElementById("final_timer").innerHTML = document.getElementById("vn_timer").innerHTML;
@@ -244,6 +262,36 @@ export default {
                     // drawCircle(ctx, c)
                     k++;
                 }
+            }
+        },
+
+        showMessage: function (message) {
+            console.log(`\n\n${message}`);
+            this.findNumber(message);
+        },
+
+        findNumber: function (message) {
+            let data = JSON.parse(message);
+            document.getElementById(`number_${data.number}`).click();
+        },
+
+        init: function () {
+            if (ws) {
+                ws.onerror = ws.onopen = ws.onclose = null;
+                ws.close();
+            }
+
+            ws = new WebSocket('ws://localhost:8888');
+            ws.onopen = () => {
+                console.log('Connection opened!');
+            }
+            ws.onmessage = ({ data }) => {
+                let message = data.toString();
+                // console.log(`\n\n${message}`);
+                this.showMessage(data);
+            }
+            ws.onclose = function () {
+                ws = null;
             }
         }
     }
