@@ -1,5 +1,9 @@
 <template>
     <div>
+        <div class="pyro" style="display: none;" id="fireworks">
+            <div class="before"></div>
+            <div class="after"></div>
+        </div>
         <div class="container">
             <div class="heading">
                 <h1 class="title" style="cursor:pointer" @click="changeNav">&#9776; Number</h1>
@@ -34,7 +38,8 @@
                 <a class="retry-button" @click="startCounting">Play again</a>
             </div>
         </div>
-        <div id="gameZone"></div>
+        <div id="gameZone">
+        </div>
         <canvas id="myCanvas"></canvas>
     </div>
 </template>
@@ -90,6 +95,7 @@ export default {
 
         closeFinish: function () {
             document.getElementById("game-over").style.display = "none";
+            document.getElementById("fireworks").style.display = "none";
         },
 
         initBoard: function () {
@@ -226,6 +232,7 @@ export default {
                             if (lookNumber > numbLength) {
                                 clearInterval(x);
                                 node.innerHTML = ' - ';
+                                document.getElementById("fireworks").style.display = "flex";
                                 document.getElementById("game-over").style.display = "flex";
                                 document.getElementById("final_timer").innerHTML = document.getElementById("vn_timer").innerHTML;
                             }
@@ -245,4 +252,5 @@ export default {
 
 <style>
 @import '../assets/styles/index.css';
+@import '../assets/styles/firework.css';
 </style>
